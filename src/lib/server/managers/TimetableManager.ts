@@ -62,28 +62,23 @@ export class TimetablesManager {
 		error?: FindEmptyRoomsError;
 		rooms?: TimetableData[];
 	} {
-		// validate day: must be 0-4
 		if (day < 0 || day > 4) {
 			return { error: FindEmptyRoomsError.DAY_NOT_EXIST };
 		}
 
-		// determine number of lesson slots (hours)
 		const hoursCount =
 			Object.keys(this.hours).length ||
 			this.timetables.classes.values().next().value?.timetable?.[0]?.length ||
 			0;
 
 		if (hoursCount === 0) {
-			// no known hours -> requested lesson index cannot exist
 			return { error: FindEmptyRoomsError.LESSON_NOT_EXIST };
 		}
 
-		// validate lessonIndex against available hours
 		if (lessonIndex < 0 || lessonIndex >= hoursCount) {
 			return { error: FindEmptyRoomsError.LESSON_NOT_EXIST };
 		}
 
-		// delegate to existing method
 		const rooms = this.findEmptyRooms(day, lessonIndex);
 		return { rooms };
 	}
