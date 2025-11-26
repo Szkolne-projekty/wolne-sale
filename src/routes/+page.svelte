@@ -22,7 +22,7 @@
 	}
 </script>
 
-<main class="font-sans flex h-full items-center flex-col gap-4 py-4">
+<main class="font-sans flex items-center flex-col gap-4 py-4">
 	<h1 class="text-3xl font-bold">Znajdź wolne sale</h1>
 
 	<hr class="w-full border-t-2 border-red-300" />
