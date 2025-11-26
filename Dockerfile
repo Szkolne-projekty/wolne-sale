@@ -1,4 +1,4 @@
-FROM oven/bun:${BUN_VERSION} AS builder
+FROM oven/bun:latest AS builder
 
 WORKDIR /app
 ENV NODE_ENV=production
@@ -26,7 +26,7 @@ RUN if grep -q "@sveltejs/adapter-" svelte.config.js; then \
 RUN bun --bun run vite build
 
 # Production stage
-FROM oven/bun:${BUN_VERSION}
+FROM oven/bun:latest
 
 WORKDIR /app
 COPY --chown=bun:bun --from=builder /app /app
