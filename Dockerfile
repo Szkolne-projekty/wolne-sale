@@ -1,17 +1,18 @@
-# --- Build Stage ---
-FROM node:24-alpine AS build
+# Build stage
+FROM node:latest AS builder
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm ci
 COPY . .
 RUN npm run build
+RUN npm prune --production
 
-# --- Run Stage ---
-FROM node:24-alpine AS run
+# Run stage
+FROM node:latest
 WORKDIR /app
-COPY --from=build /app/package.json ./
-COPY --from=build /app/build ./build
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY package.json .
+EXPOSE 3000
 ENV NODE_ENV=production
-ENV PORT=25567
-EXPOSE 25567
 CMD ["node", "build"]
