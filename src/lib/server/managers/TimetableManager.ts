@@ -43,10 +43,10 @@ export class TimetablesManager {
 			const dayArr = roomData.timetable[day];
 			if (!Array.isArray(dayArr)) continue;
 
-			if (lessonIndex < 0 || lessonIndex >= dayArr.length) continue;
+			if (lessonIndex < 0) continue;
 
 			const lessons = dayArr[lessonIndex];
-			if (Array.isArray(lessons) && lessons.length === 0) {
+			if (lessonIndex >= dayArr.length || (Array.isArray(lessons) && lessons.length === 0)) {
 				empty.push(roomData);
 			}
 		}
@@ -133,20 +133,12 @@ export class TimetablesManager {
 			});
 		}
 
-		if (!!list.rooms && list.rooms.length !== 0) {
-			for (const item of list.rooms) {
-				this.timetables.rooms.set(item.value, {
-					name: item.name,
-					id: item.value,
-					timetable: await this.fetchTimetable(TimetableType.ROOM, item.value)
-				});
-			}
-		} else {
-			const rooms = await this.getAllRooms();
-
-			for (const room of rooms) {
-				await this.createRoomTimetable(room);
-			}
+		for (const item of list.rooms ?? []) {
+			this.timetables.rooms.set(item.value, {
+				name: item.name,
+				id: item.value,
+				timetable: await this.fetchTimetable(TimetableType.ROOM, item.value)
+			});
 		}
 
 		console.log(

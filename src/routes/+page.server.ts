@@ -24,7 +24,7 @@ export const actions: Actions = {
 		const day = Number(data.get('day'));
 		const lessonIndex = Number(data.get('lesson-number'));
 
-		const result = timetableManager.findEmptyRoomsValidated(day, lessonIndex);
+		const result = timetableManager.findEmptyRoomsValidated(day, lessonIndex - 1);
 
 		if (result.error) {
 			return fail(400, {
