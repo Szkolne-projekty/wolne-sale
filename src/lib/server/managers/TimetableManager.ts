@@ -5,6 +5,7 @@ import {
 	type TableLesson,
 	type TableHour
 } from '@majusss/timetable-parser';
+import { FindEmptyRoomsError } from '$lib/constants';
 import config from '$config';
 
 export type ITimetable = TableLesson[][][];
@@ -22,11 +23,6 @@ type TimetablesData = Record<TimetablesDataKeys, Map<string, TimetableData>>;
 export enum TimetableType {
 	CLASS = 'o',
 	ROOM = 's'
-}
-
-export enum FindEmptyRoomsError {
-	DAY_NOT_EXIST,
-	LESSON_NOT_EXIST
 }
 
 export class TimetablesManager {
@@ -90,6 +86,19 @@ export class TimetablesManager {
 		// delegate to existing method
 		const rooms = this.findEmptyRooms(day, lessonIndex);
 		return { rooms };
+	}
+
+	public getLessonNumbers(): number[] {
+		const hourKeys = Object.keys(this.hours);
+		if (hourKeys.length > 0) {
+			return hourKeys.map((k) => this.hours[k].number).filter((n): n is number => n !== undefined);
+		}
+
+		const anyClass = this.timetables.classes.values().next().value;
+		const hoursCount = anyClass?.timetable?.[0]?.length || 0;
+		if (hoursCount === 0) return [];
+
+		return Array.from({ length: hoursCount }, (_, i) => i + 1);
 	}
 
 	public async getTimetableList() {
