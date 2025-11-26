@@ -70,4 +70,10 @@
 			</ul>
 		</section>
 	{/if}
+
+	<img
+		src="/krzysiu.png"
+		alt="Krzysiu"
+		class="hidden md:block absolute left-0 top-[25%] w-[25%] h-auto"
+	/>
 </main>
