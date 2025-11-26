@@ -11,5 +11,5 @@ body {
 }
 
 .lessons-box {
-	background-image: linear-gradient(30deg, oklch(47.6% 0.114 61.907 / 0.5) 0%, transparent 100%);
+	background-image: linear-gradient(30deg, oklch(47.6% 0.114 61.907 / 0.2) 0%, transparent 100%);
 }
