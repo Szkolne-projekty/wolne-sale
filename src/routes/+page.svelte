@@ -43,7 +43,7 @@
 		>
 			<option value="" disabled selected>Wybierz numer lekcji</option>
 			{#each data.hoursNumbers as number}
-				<option value={number}>{number}</option>
+				<option value={number - 1}>{number}</option>
 			{/each}
 		</select>
 
